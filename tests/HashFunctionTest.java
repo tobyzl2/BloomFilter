@@ -6,7 +6,7 @@ public class HashFunctionTest {
 
     @Test
     public void HashFunctionDeterministicTest() {
-        HashFunction hf = new HashFunction(0);
+        HashFunction hf = new HashFunction(1000, 0);
         int firstHash = hf.hash(new byte[]{0, 1});
         int secondHash = hf.hash(new byte[]{0, 1});
 
@@ -15,8 +15,8 @@ public class HashFunctionTest {
 
     @Test
     public void HashFunctionDifferenceTest() {
-        HashFunction hf = new HashFunction(0);
-        int firstHash = hf.hash(new byte[]{1, 10});
+        HashFunction hf = new HashFunction(1000, 0);
+        int firstHash = hf.hash(new byte[]{1, 0});
         int secondHash = hf.hash(new byte[]{0, 1});
 
         assertNotEquals(firstHash, secondHash);

@@ -24,7 +24,7 @@ public class BloomFilter {
         this.bitset = new BitSet(m);
         this.hashFunctions = new HashFunction[k];
         for (int seed = 0; seed < k; seed++) {
-            hashFunctions[seed] = new HashFunction(seed);
+            hashFunctions[seed] = new HashFunction(m, seed);
         }
     }
 
