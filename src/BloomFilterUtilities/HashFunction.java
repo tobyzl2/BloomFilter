@@ -14,7 +14,11 @@ public class HashFunction {
      * @param M max value of hashcode
      * @param seed unique hash function seed
      */
-    public HashFunction(int M, int seed) {
+    public HashFunction(int M, int seed) throws IllegalArgumentException {
+        if (M <= 0) {
+            throw new IllegalArgumentException("M must be positive.");
+        }
+
         this.M = M;
         this.seed = seed;
     }
