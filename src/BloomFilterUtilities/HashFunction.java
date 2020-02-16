@@ -1,5 +1,10 @@
+package BloomFilterUtilities;
+
 import org.apache.commons.codec.digest.MurmurHash3;
 
+/**
+ * A hash function class to generate k-independent hash functions.
+ */
 public class HashFunction {
     private int M;
     private int seed;
@@ -20,8 +25,9 @@ public class HashFunction {
      * @return hashcode
      */
     public int hash(byte[] data) {
-         int hash = MurmurHash3.hash32x86(data, 0, data.length, seed);
-         hash = (hash & 0x7fffffff) % M;
-         return hash;
+        int hash = MurmurHash3.hash32x86(data, 0, data.length, seed);
+        hash = (hash & 0x7fffffff) % M;    // handle negative values and shrink range to M
+
+        return hash;
     }
 }

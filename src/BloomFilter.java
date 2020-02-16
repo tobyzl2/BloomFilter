@@ -1,3 +1,5 @@
+import BloomFilterUtilities.HashFunction;
+
 import java.util.BitSet;
 
 /**
