@@ -30,9 +30,9 @@ class BloomFilterUtilitiesTest {
 
     @Test
     void HashFunctionIllegalArgumentTest() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new HashFunction(0, testSeed);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            new HashFunction(0, testSeed)
+        );
     }
 
     @Test
