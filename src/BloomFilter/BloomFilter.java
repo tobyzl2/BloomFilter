@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.BitSet;
 
 /**
- * A BloomFilter. implementation.
+ * A BloomFilter implementation.
  */
 public class BloomFilter {
     private int m;  // size of BloomFilter

@@ -17,19 +17,28 @@ public class Serializer {
     public static byte[] serialize(Serializable s) {
         byte[] res = new byte[]{};
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = null;
         try {
             // write object to baos
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos = new ObjectOutputStream(baos);
             oos.writeObject(s);
             oos.flush();
 
-            // write byte array to result
+            // write byte array to res
             res = baos.toByteArray();
-        } catch (Exception e) {
-            // log exception and return empty byte array
-            logger.log(Level.SEVERE, "Object could not be serialized with exception: " + e);
+        } catch (IOException ioe) {
+            // handle ObjectOutputStream exceptions
+            logger.log(Level.SEVERE, "Object could not be serialized with exception: " + ioe);
+        } finally {
+            // close ObjectOutputStream
+            try {
+                if (oos != null) {
+                    oos.close();
+                }
+            } catch (IOException ioe) {
+                logger.log(Level.SEVERE, "Failed to close ObjectOutputStream with exception: " + ioe);
+            }
         }
-
 
         return res;
     }
@@ -42,18 +51,25 @@ public class Serializer {
     public static Object deserialize(byte[] byteArray) {
         Object res = new Object();
         ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
-        ObjectInput in = null;
+        ObjectInput oi = null;
         try {
-            in = new ObjectInputStream(bais);
-            res = in.readObject();
-        } catch (Exception e) {
+            // read object to res
+            oi = new ObjectInputStream(bais);
+            res = oi.readObject();
+        } catch (IOException ioe) {
+            // handle ObjectInputStream instantiation exception
+            logger.log(Level.SEVERE, "Failed to create ObjectInputStream with exception: " + ioe);
+        } catch (ClassNotFoundException cnfe) {
+            // handle unreadable object class
+            logger.log(Level.SEVERE, "Failed to find class with exception: " + cnfe);
+        } finally {
+            // close ObjectInput
             try {
-                logger.log(Level.SEVERE, "Failed to deserialize with exception: " + e);
-                if (in != null) {
-                    in.close();
+                if (oi != null) {
+                    oi.close();
                 }
-            } catch (Exception e2) {
-                logger.log(Level.SEVERE, "Failed to close ObjectInputStream with exception: " + e2);
+            } catch (IOException ioe) {
+                logger.log(Level.SEVERE, "Failed to close ObjectInput with exception: " + ioe);
             }
         }
 
