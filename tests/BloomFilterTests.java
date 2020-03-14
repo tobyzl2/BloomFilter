@@ -66,7 +66,7 @@ class BloomFilterTests {
         double fpr = 0.8;
         BloomFilter bf = new BloomFilter(n, fpr);
 
-        // check m and k values
+        // check that k is not zero
         assertEquals(47, bf.getM());
         assertEquals(1, bf.getK());
     }
