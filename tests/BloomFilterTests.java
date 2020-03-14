@@ -5,7 +5,7 @@ import BloomFilterUtilities.Serializer;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class BloomFilterTest {
+class BloomFilterTests {
     private BloomFilter initializeSimpleBf() {
         // initialize BloomFilter
         int n = 100;
@@ -28,26 +28,34 @@ class BloomFilterTest {
     }
 
     @Test
-    void invalidConstructorTest() {
+    void invalidNConstructorTest() {
         // initialize BloomFilter parameters
-        int n = -1;
         double fpr = 0.01;
 
-        // check invalid argument exception
+        // check invalid 0 argument for n
         assertThrows(IllegalArgumentException.class,
-                () -> new BloomFilter(n, fpr)
+                () -> new BloomFilter(0, fpr)
+        );
+
+        // check invalid negative argument for n
+        assertThrows(IllegalArgumentException.class,
+                () -> new BloomFilter(-42, fpr)
         );
     }
 
     @Test
     void invalidFprConstructorTest() {
         // initialize BloomFilter parameters
-        int n = 1000;
-        double fpr = 1.01;
+        int n = 100;
 
-        // check invalid argument exception
+        // check invalid greater than 1 argument for fpr
         assertThrows(IllegalArgumentException.class,
-                () -> new BloomFilter(n, fpr)
+                () -> new BloomFilter(n, 1.01)
+        );
+
+        // check invalid negative argument for fpr
+        assertThrows(IllegalArgumentException.class,
+                () -> new BloomFilter(n, -1)
         );
     }
 
@@ -77,7 +85,7 @@ class BloomFilterTest {
     }
 
     @Test
-    void positiveContainsTest() {
+    void containsTest() {
         // initialize bloomfilter and add 12
         BloomFilter bf = initializeSimpleBf();
         bf.add(12);
@@ -87,7 +95,7 @@ class BloomFilterTest {
     }
 
     @Test
-    void negativeContainsTest() {
+    void notContainsTest() {
         // initialize bloomfilter
         BloomFilter bf = initializeSimpleBf();
 
