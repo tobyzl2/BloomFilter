@@ -21,14 +21,17 @@ public class BloomFilter {
      * @param fpr target false positive rate
      */
     public BloomFilter(int n, double fpr) throws IllegalArgumentException {
-        if (n <= 0 || fpr < 0 || fpr > 1) {
-            throw new IllegalArgumentException();
+        if (n <= 0) {
+            throw new IllegalArgumentException("N must be positive.");
+        }
+
+        if (fpr < 0 || fpr > 1) {
+            throw new IllegalArgumentException("Fpr must be between 0 and 1.");
         }
 
         // initialize m and k
-        this.m = (int) Math.ceil(((-n * Math.log(fpr)) / Math.pow(Math.log(2), 2)));
-        this.k = (int) Math.round((((double) this.m / n) * Math.log(2)));
-        this.k = (this.k < 1) ? 1 : this.k;
+        this.m = Math.max(1, (int) Math.ceil(((-n * Math.log(fpr)) / Math.pow(Math.log(2), 2))));
+        this.k = Math.max(1, (int) Math.round((((double) this.m / n) * Math.log(2))));
 
         // initialize bitset and hashfunctions array
         this.bitset = new BitSet(this.m);
@@ -45,7 +48,10 @@ public class BloomFilter {
      * @param s serializable object to add
      */
     public void add(Serializable s) {
+        // serialize s
         byte[] byteArr = Serializer.serialize(s);
+
+        // set bitset indexes
         for (HashFunction h : this.hashFunctions) {
             int index = h.hash(byteArr);
             this.bitset.set(index);
@@ -58,7 +64,10 @@ public class BloomFilter {
      * @return true if object is in BloomFilter, false otherwise
      */
     public boolean contains(Serializable s) {
+        // serialize s
         byte[] byteArr = Serializer.serialize(s);
+
+        // check bitset indexes
         for (HashFunction h : this.hashFunctions) {
             int index = h.hash(byteArr);
             if (!this.bitset.get(index)) {

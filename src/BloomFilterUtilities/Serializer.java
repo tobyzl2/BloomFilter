@@ -18,7 +18,7 @@ public class Serializer {
         byte[] res = new byte[]{};
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            // write object to output stream
+            // write object to baos
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(s);
             oos.flush();
@@ -36,7 +36,7 @@ public class Serializer {
 
     /**
      * Converts a byte array to an object.
-     * @param byteArray byte array to be deserialized
+     * @param byteArray byte array to deserialize
      * @return object obtained from the deserialized byte array
      */
     public static Object deserialize(byte[] byteArray) {

@@ -29,8 +29,8 @@ public class HashFunction {
      * @return hashcode
      */
     public int hash(byte[] data) {
-        int hash = MurmurHash3.hash32x86(data, 0, data.length, seed);
-        hash = (hash & 0x7fffffff) % M;    // handle negative values and shrink range to M
+        int hash = MurmurHash3.hash32x86(data, 0, data.length, this.seed);
+        hash = (hash & 0x7fffffff) % this.M;    // handle negative values and shrink range to M
 
         return hash;
     }
