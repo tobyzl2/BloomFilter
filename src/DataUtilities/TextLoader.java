@@ -1,4 +1,4 @@
-package DataLoader;
+package DataUtilities;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,7 +16,11 @@ public class TextLoader {
      * @param filepath path of text file
      * @return array containing lines in text file
      */
-    public static Object[] readText(String filepath) {
+    public static Object[] readText(String filepath) throws IllegalArgumentException {
+        if (filepath == null) {
+            throw new IllegalArgumentException("Illegal null argument for filepath.");
+        }
+
         ArrayList<Object> res = new ArrayList<>();
         File file = new File(filepath);
         try {
